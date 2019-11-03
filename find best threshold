@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.metrics import matthews_corrcoef
 
-def find_matthews_threshold(p_valid, y_valid, try_all=False, verbose=False):
+def find_matthews_threshold(p_valid, y_valid, try_all=False, verbose=False): #try_all option will try every single value as a threshold
     p_valid, y_valid = np.array(p_valid), np.array(y_valid)
 
     best = 0
