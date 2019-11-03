@@ -1,0 +1,25 @@
+import numpy as np
+from sklearn.metrics import matthews_corrcoef
+
+def find_matthews_threshold(p_valid, y_valid, try_all=False, verbose=False):
+    p_valid, y_valid = np.array(p_valid), np.array(y_valid)
+
+    best = 0
+    best_score = -2
+    totry = np.arange(0,1,0.01) if try_all is False else np.unique(p_valid)
+    for t in totry:
+        score = matthews_corrcoef(y_valid, p_valid > t)
+        if score > best_score:
+            best_score = score
+            best = t
+    if verbose is True: 
+        print('Best score: ', round(best_score, 5), ' @ threshold ', best)
+
+    return best
+
+def best_threshold_submission(p_valid, y_valid, p_test, try_all=False, verbose=False):
+    p_test = np.array(p_test)
+    thresh = find_matthews_threshold(p_valid, y_valid, try_all, verbose)
+    return p_test > thresh
+
+submission_values = best_threshold_submission(validation_probabilities, validation_groundtruth, test_probabilities)
